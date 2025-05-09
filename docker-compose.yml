@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  backend:
+    image: test-case-generator-backend
+    build: ./backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - backend/.env
+    depends_on:
+      - mongo
+    networks:
+      - chat-network
+    restart: always
+
+  frontend:
+    image: test-case-generator-frontend
+    build: ./chat-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend
+    networks:
+      - chat-network
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - chat-network
+    restart: always
+
+volumes:
+  mongo-data:
+
+networks:
+  chat-network:
+    driver: bridge
