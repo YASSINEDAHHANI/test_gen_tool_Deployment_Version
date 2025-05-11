@@ -1,20 +1,23 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import api from "../api"
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom"
 
+// Dark theme styles based on the TestGen interface
 const styles = {
   // Layout
   container: {
     display: "flex",
     minHeight: "100vh",
     flexDirection: "column",
-    backgroundColor: "#f9fafb",
-    fontFamily: "system-ui, -apple-system, sans-serif",
+    backgroundColor: "#0a0d14", // Dark navy/black background
+    fontFamily: "Inter, system-ui, -apple-system, sans-serif",
+    color: "#ffffff",
   },
   header: {
-    borderBottom: "1px solid #e5e7eb",
-    backgroundColor: "white",
-    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#0a0d14",
   },
   headerContainer: {
     maxWidth: "1200px",
@@ -28,7 +31,7 @@ const styles = {
   backButton: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#4b5563",
+    color: "#ffffff",
     display: "flex",
     alignItems: "center",
     backgroundColor: "transparent",
@@ -39,8 +42,7 @@ const styles = {
     transition: "all 0.2s",
   },
   backButtonHover: {
-    backgroundColor: "#f3f4f6",
-    color: "#111827",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
   backIcon: {
     height: "1rem",
@@ -50,7 +52,7 @@ const styles = {
   pageTitle: {
     fontSize: "1.25rem",
     fontWeight: "700",
-    color: "#111827",
+    color: "#ffffff",
     margin: 0,
   },
   navLinks: {
@@ -61,7 +63,7 @@ const styles = {
   navLink: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#4b5563",
+    color: "#ffffff",
     backgroundColor: "transparent",
     border: "none",
     cursor: "pointer",
@@ -70,8 +72,7 @@ const styles = {
     transition: "all 0.2s",
   },
   navLinkHover: {
-    backgroundColor: "#f3f4f6",
-    color: "#111827",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
   mainContent: {
     display: "flex",
@@ -83,9 +84,9 @@ const styles = {
   redirectContainer: {
     textAlign: "center",
     padding: "3rem",
-    backgroundColor: "white",
+    backgroundColor: "#0f1219", // Slightly lighter than background
     borderRadius: "0.75rem",
-    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     maxWidth: "32rem",
     width: "100%",
   },
@@ -93,11 +94,11 @@ const styles = {
     fontSize: "1.5rem",
     fontWeight: "700",
     marginBottom: "1rem",
-    color: "#111827",
+    color: "#ffffff",
   },
   redirectText: {
     marginBottom: "1.5rem",
-    color: "#4b5563",
+    color: "#9ca3af",
     fontSize: "0.875rem",
     lineHeight: "1.5rem",
   },
@@ -106,19 +107,17 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     padding: "0.625rem 1.25rem",
-    backgroundColor: "#4f46e5",
+    backgroundColor: "#3b82f6",
     color: "white",
     borderRadius: "0.375rem",
     fontSize: "0.875rem",
     fontWeight: "500",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
     border: "none",
     cursor: "pointer",
     transition: "all 0.2s",
   },
   primaryButtonHover: {
-    backgroundColor: "#4338ca",
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    backgroundColor: "#2563eb",
   },
   loadingSpinner: {
     height: "1.5rem",
@@ -130,7 +129,7 @@ const styles = {
 }
 
 function Project() {
-const { id } = useParams();
+  const { id } = useParams()
   const navigate = (path) => {
     window.location.href = path
   }
@@ -162,7 +161,24 @@ const { id } = useParams();
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-    `
+    
+    body {
+      background-color: #0a0d14;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    html {
+      background-color: #0a0d14;
+    }
+    
+    /* Remove any potential white borders */
+    #root, div[data-reactroot] {
+      background-color: #0a0d14;
+      min-height: 100vh;
+    }
+  `
     document.head.appendChild(styleTag)
 
     return () => {

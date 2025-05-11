@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
 import api from "../api"
@@ -12,22 +14,27 @@ const requirementCategories = [
   { value: "accessibility", label: "Accessibilité" },
 ]
 const getCategoryLabel = (value) => {
-  const category = requirementCategories.find(cat => cat.value === value);
-  return category ? category.label : value;
+  const category = requirementCategories.find((cat) => cat.value === value)
+  return category ? category.label : value
 }
+
+// Dark theme styles
 const styles = {
   // Layout
   container: {
     display: "flex",
     minHeight: "100vh",
     flexDirection: "column",
-    backgroundColor: "#f9fafb",
-    fontFamily: "system-ui, -apple-system, sans-serif",
+    backgroundColor: "#0a0d14", // Dark navy/black background
+    fontFamily: "Inter, system-ui, -apple-system, sans-serif",
+    color: "#ffffff",
+    margin: 0,
+    padding: 0,
+    overflow: "hidden",
   },
   header: {
-    borderBottom: "1px solid #e5e7eb",
-    backgroundColor: "white",
-    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#0a0d14",
   },
   headerContainer: {
     maxWidth: "1200px",
@@ -44,8 +51,8 @@ const styles = {
   },
   sidebar: {
     width: "18rem",
-    borderRight: "1px solid #e5e7eb",
-    backgroundColor: "#f9fafb",
+    borderRight: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#0a0d14",
     display: "none",
     transition: "all 0.3s",
     overflowY: "auto",
@@ -62,13 +69,13 @@ const styles = {
     marginBottom: "1.25rem",
     display: "flex",
     alignItems: "center",
-    color: "#111827",
+    color: "#ffffff",
   },
   sidebarIcon: {
     marginRight: "0.5rem",
     height: "1.25rem",
     width: "1.25rem",
-    color: "#6b7280",
+    color: "#9ca3af",
   },
   historyList: {
     display: "flex",
@@ -89,21 +96,19 @@ const styles = {
     marginBottom: "0.75rem",
   },
   historyItem: {
-    backgroundColor: "white",
+    backgroundColor: "#0f1219", // Slightly lighter than background
     overflow: "hidden",
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
     borderRadius: "0.5rem",
-    border: "1px solid #e5e7eb",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     cursor: "pointer",
     transition: "all 0.2s",
   },
   historyItemHover: {
-    backgroundColor: "#f9fafb",
+    borderColor: "rgba(255, 255, 255, 0.2)",
     transform: "translateY(-1px)",
-    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
   },
   historyItemActive: {
-    borderLeft: "3px solid #4f46e5",
+    borderLeft: "3px solid #3b82f6",
   },
   historyItemContent: {
     padding: "1rem",
@@ -111,12 +116,12 @@ const styles = {
   historyItemTitle: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#111827",
+    color: "#ffffff",
     marginBottom: "0.25rem",
   },
   historyItemMeta: {
     fontSize: "0.75rem",
-    color: "#6b7280",
+    color: "#9ca3af",
     marginBottom: "0.5rem",
     display: "flex",
     alignItems: "center",
@@ -130,18 +135,17 @@ const styles = {
     justifyContent: "center",
     padding: "0.5rem 0.75rem",
     borderRadius: "0.375rem",
-    border: "1px solid #d1d5db",
-    backgroundColor: "white",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "transparent",
     fontSize: "0.75rem",
     fontWeight: "500",
-    color: "#374151",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    color: "#d1d5db",
     cursor: "pointer",
     transition: "all 0.2s",
   },
   historyButtonHover: {
-    backgroundColor: "#f9fafb",
-    borderColor: "#9ca3af",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   main: {
     flex: "1",
@@ -155,16 +159,15 @@ const styles = {
   requirementForm: {
     marginBottom: "2rem",
     padding: "1.5rem",
-    border: "1px solid #e5e7eb",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: "0.5rem",
-    backgroundColor: "white",
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    backgroundColor: "#0f1219", // Slightly lighter than background
   },
   formTitle: {
     fontSize: "1.25rem",
     fontWeight: "700",
     marginBottom: "1.25rem",
-    color: "#111827",
+    color: "#ffffff",
   },
   formGroup: {
     marginBottom: "1.25rem",
@@ -173,31 +176,30 @@ const styles = {
     display: "block",
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#374151",
+    color: "#d1d5db",
     marginBottom: "0.5rem",
   },
   input: {
     width: "100%",
     padding: "0.625rem 0.75rem",
     borderRadius: "0.375rem",
-    border: "1px solid #d1d5db",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     fontSize: "0.875rem",
     transition: "border-color 0.2s, box-shadow 0.2s",
+    backgroundColor: "#0a0d14",
+    color: "#ffffff",
   },
   inputFocus: {
     outline: "none",
-    borderColor: "#6366f1",
-    boxShadow: "0 0 0 1px rgba(99, 102, 241, 0.2)",
+    borderColor: "#3b82f6",
+    boxShadow: "0 0 0 1px #3b82f6",
   },
   select: {
     width: "100%",
     padding: "0.625rem 2.5rem 0.625rem 0.75rem",
     borderRadius: "0.375rem",
-    border: "1px solid #d1d5db",
-    backgroundColor: "white",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     fontSize: "0.875rem",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
     backgroundImage:
       'url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 strokeLinecap=%27round%27 strokeLinejoin=%27round%27 strokeWidth=%271.5%27 d=%27M6 8l4 4 4-4%27/%3e%3c/svg%3e")',
     backgroundRepeat: "no-repeat",
@@ -205,11 +207,13 @@ const styles = {
     backgroundSize: "1.5em 1.5em",
     appearance: "none",
     transition: "border-color 0.2s, box-shadow 0.2s",
+    backgroundColor: "#0a0d14",
+    color: "#ffffff",
   },
   selectFocus: {
     outline: "none",
-    borderColor: "#6366f1",
-    boxShadow: "0 0 0 1px rgba(99, 102, 241, 0.2)",
+    borderColor: "#3b82f6",
+    boxShadow: "0 0 0 1px #3b82f6",
   },
   button: {
     display: "inline-flex",
@@ -222,15 +226,13 @@ const styles = {
     border: "none",
     cursor: "pointer",
     transition: "all 0.2s",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
   },
   primaryButton: {
-    backgroundColor: "#4f46e5",
+    backgroundColor: "#3b82f6",
     color: "white",
   },
   primaryButtonHover: {
-    backgroundColor: "#4338ca",
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    backgroundColor: "#2563eb",
   },
   disabledButton: {
     opacity: "0.5",
@@ -238,7 +240,7 @@ const styles = {
   },
   requirementAlert: {
     marginBottom: "2rem",
-    backgroundColor: "#eff6ff",
+    backgroundColor: "rgba(59, 130, 246, 0.1)",
     borderLeftWidth: "4px",
     borderLeftColor: "#3b82f6",
     padding: "1.25rem",
@@ -259,12 +261,12 @@ const styles = {
   alertTitle: {
     fontSize: "0.875rem",
     fontWeight: "600",
-    color: "#1e40af",
+    color: "#60a5fa",
   },
   alertText: {
     marginTop: "0.5rem",
     fontSize: "0.875rem",
-    color: "#1e3a8a",
+    color: "#93c5fd",
   },
   badge: {
     marginTop: "0.25rem",
@@ -274,8 +276,8 @@ const styles = {
     borderRadius: "9999px",
     fontSize: "0.75rem",
     fontWeight: "500",
-    backgroundColor: "#dbeafe",
-    color: "#1e3a8a",
+    backgroundColor: "rgba(59, 130, 246, 0.2)",
+    color: "#60a5fa",
   },
   formSection: {
     marginBottom: "1.5rem",
@@ -292,34 +294,35 @@ const styles = {
   radio: {
     height: "1rem",
     width: "1rem",
-    color: "#4f46e5",
-    borderColor: "#d1d5db",
-    accentColor: "#4f46e5",
+    color: "#3b82f6",
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    accentColor: "#3b82f6",
   },
   radioLabel: {
     marginLeft: "0.75rem",
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#374151",
+    color: "#d1d5db",
   },
   textarea: {
     width: "100%",
     padding: "0.625rem 0.75rem",
     borderRadius: "0.375rem",
-    border: "1px solid #d1d5db",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     fontSize: "0.875rem",
     resize: "vertical",
     minHeight: "6rem",
     transition: "border-color 0.2s, box-shadow 0.2s",
+    backgroundColor: "#0a0d14",
+    color: "#ffffff",
   },
   textareaFocus: {
     outline: "none",
-    borderColor: "#6366f1",
-    boxShadow: "0 0 0 1px rgba(99, 102, 241, 0.2)",
+    borderColor: "#3b82f6",
+    boxShadow: "0 0 0 1px #3b82f6",
   },
   divider: {
-    borderTop: "1px solid #e5e7eb",
+    borderTop: "1px solid rgba(255, 255, 255, 0.1)",
     marginTop: "1.5rem",
     marginBottom: "1.5rem",
   },
@@ -334,7 +337,7 @@ const styles = {
   resultsTitle: {
     fontSize: "1.25rem",
     fontWeight: "600",
-    color: "#111827",
+    color: "#ffffff",
   },
   actionButtons: {
     display: "flex",
@@ -347,11 +350,10 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     padding: "0.625rem 1rem",
-    backgroundColor: "white",
-    color: "#374151",
-    border: "1px solid #d1d5db",
+    backgroundColor: "transparent",
+    color: "#d1d5db",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: "0.375rem",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
     fontSize: "0.875rem",
     fontWeight: "500",
     lineHeight: "1.25rem",
@@ -359,8 +361,8 @@ const styles = {
     transition: "all 0.2s",
   },
   outlineButtonHover: {
-    backgroundColor: "#f9fafb",
-    borderColor: "#9ca3af",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   actionIcon: {
     marginRight: "0.5rem",
@@ -368,7 +370,7 @@ const styles = {
     width: "1rem",
   },
   resultsPreview: {
-    backgroundColor: "white",
+    backgroundColor: "#0f1219", // Slightly lighter than background
     padding: "1.25rem",
     borderRadius: "0.5rem",
     overflow: "auto",
@@ -376,26 +378,28 @@ const styles = {
     whiteSpace: "pre-wrap",
     fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
     fontSize: "0.875rem",
-    border: "1px solid #e5e7eb",
-    boxShadow: "inset 0 1px 2px rgba(0, 0, 0, 0.05)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     lineHeight: "1.5",
+    color: "#d1d5db",
   },
   resultsEditor: {
     width: "100%",
     height: "28rem",
     padding: "1.25rem",
     borderRadius: "0.5rem",
-    border: "1px solid #d1d5db",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
     fontSize: "0.875rem",
     lineHeight: "1.5",
     resize: "none",
     transition: "border-color 0.2s, box-shadow 0.2s",
+    backgroundColor: "#0f1219", // Slightly lighter than background
+    color: "#d1d5db",
   },
   resultsEditorFocus: {
     outline: "none",
-    borderColor: "#6366f1",
-    boxShadow: "0 0 0 1px rgba(99, 102, 241, 0.2)",
+    borderColor: "#3b82f6",
+    boxShadow: "0 0 0 1px #3b82f6",
   },
   chatButton: {
     position: "fixed",
@@ -408,18 +412,17 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#4f46e5",
+    backgroundColor: "#3b82f6",
     color: "white",
-    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)",
     border: "none",
     cursor: "pointer",
     transition: "all 0.2s",
     zIndex: "40",
   },
   chatButtonHover: {
-    backgroundColor: "#4338ca",
+    backgroundColor: "#2563eb",
     transform: "translateY(-1px)",
-    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
   },
   chatIcon: {
     height: "1.5rem",
@@ -431,10 +434,10 @@ const styles = {
     right: "1.5rem",
     width: "20rem",
     height: "28rem",
-    backgroundColor: "white",
+    backgroundColor: "#0f1219", // Slightly lighter than background
     borderRadius: "0.75rem",
-    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-    border: "1px solid #e5e7eb",
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",
@@ -448,13 +451,13 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
     padding: "1rem",
-    borderBottom: "1px solid #e5e7eb",
-    backgroundColor: "#f9fafb",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#0a0d14",
   },
   chatTitle: {
     fontSize: "1.125rem",
     fontWeight: "600",
-    color: "#111827",
+    color: "#ffffff",
   },
   closeButton: {
     backgroundColor: "transparent",
@@ -469,8 +472,8 @@ const styles = {
     transition: "all 0.2s",
   },
   closeButtonHover: {
-    color: "#6b7280",
-    backgroundColor: "#f3f4f6",
+    color: "#ffffff",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
   closeIcon: {
     height: "1.25rem",
@@ -483,6 +486,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "1rem",
+    backgroundColor: "#0f1219", // Slightly lighter than background
   },
   emptyChatState: {
     textAlign: "center",
@@ -501,7 +505,7 @@ const styles = {
   },
   emptyChatText: {
     fontSize: "0.875rem",
-    color: "#6b7280",
+    color: "#9ca3af",
     maxWidth: "80%",
     lineHeight: "1.5",
   },
@@ -520,44 +524,44 @@ const styles = {
     borderRadius: "0.75rem",
     fontSize: "0.875rem",
     lineHeight: "1.5",
-    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
   },
   userMessage: {
-    backgroundColor: "#e0e7ff",
-    color: "#1e1b4b",
+    backgroundColor: "rgba(59, 130, 246, 0.2)",
+    color: "#93c5fd",
     borderBottomRightRadius: "0.25rem",
   },
   assistantMessage: {
-    backgroundColor: "#f3f4f6",
-    color: "#111827",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    color: "#d1d5db",
     borderBottomLeftRadius: "0.25rem",
   },
   chatForm: {
     display: "flex",
     padding: "1rem",
-    borderTop: "1px solid #e5e7eb",
-    backgroundColor: "#f9fafb",
+    borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#0a0d14",
   },
   chatInput: {
     flex: "1",
     padding: "0.625rem 0.75rem",
     borderRadius: "0.375rem 0 0 0.375rem",
-    border: "1px solid #d1d5db",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRight: "none",
     fontSize: "0.875rem",
     transition: "border-color 0.2s, box-shadow 0.2s",
+    backgroundColor: "#0f1219", // Slightly lighter than background
+    color: "#ffffff",
   },
   chatInputFocus: {
     outline: "none",
-    borderColor: "#6366f1",
-    boxShadow: "0 0 0 1px rgba(99, 102, 241, 0.2)",
+    borderColor: "#3b82f6",
   },
   chatSubmitButton: {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
     padding: "0.625rem 1rem",
-    backgroundColor: "#4f46e5",
+    backgroundColor: "#3b82f6",
     color: "white",
     borderRadius: "0 0.375rem 0.375rem 0",
     border: "none",
@@ -567,7 +571,7 @@ const styles = {
     transition: "all 0.2s",
   },
   chatSubmitButtonHover: {
-    backgroundColor: "#4338ca",
+    backgroundColor: "#2563eb",
   },
   submitIcon: {
     height: "1rem",
@@ -629,7 +633,7 @@ const styles = {
   backButton: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#4b5563",
+    color: "#ffffff",
     display: "flex",
     alignItems: "center",
     backgroundColor: "transparent",
@@ -640,8 +644,7 @@ const styles = {
     transition: "all 0.2s",
   },
   backButtonHover: {
-    backgroundColor: "#f3f4f6",
-    color: "#111827",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
   backIcon: {
     height: "1rem",
@@ -651,13 +654,13 @@ const styles = {
   pageTitle: {
     fontSize: "1.25rem",
     fontWeight: "700",
-    color: "#111827",
+    color: "#ffffff",
     margin: 0,
   },
   navLink: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#4b5563",
+    color: "#ffffff",
     backgroundColor: "transparent",
     border: "none",
     cursor: "pointer",
@@ -666,10 +669,10 @@ const styles = {
     transition: "all 0.2s",
   },
   navLinkHover: {
-    backgroundColor: "#f3f4f6",
-    color: "#111827",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
 }
+
 function Generate() {
   const { id: projectId } = useParams()
   const navigate = useNavigate()
@@ -747,6 +750,39 @@ function Generate() {
         0% { opacity: 0.3; }
         50% { opacity: 1; }
         100% { opacity: 0.3; }
+      }
+      
+      /* Add custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: #0a0d14;
+        border-radius: 10px;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #1f2937;
+        border-radius: 10px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #374151;
+      }
+      
+      /* Add font smoothing */
+      * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      /* Set body background */
+      body {
+        background-color: #0a0d14;
+        margin: 0;
+        padding: 0;
       }
     `
     document.head.appendChild(styleTag)
@@ -841,61 +877,7 @@ function Generate() {
       setHistoryItems([])
     }
   }
-  
-  const fetchAndUpdateHistory = async (updatedTests = null, newActiveHistoryId = null) => {
-    try {
-      const params = new URLSearchParams();
-      params.append("project_id", projectId);
 
-      const reqId = selectedRequirement?.id || requirementId;
-      if (reqId) params.append("requirement_id", reqId);
-
-      const response = await api.get(`/history?${params.toString()}`);
-
-      // Process history items with active state preserved
-      const formattedHistory = response.data.history
-        .filter((item) => item.test_cases)
-        .map((item) => {
-          const isActive = newActiveHistoryId 
-            ? item._id === newActiveHistoryId 
-            : activeHistoryId === item._id;
-          
-          // Override testCases if this is the active item and we have updated tests
-          const testCases = (isActive && updatedTests) ? updatedTests : item.test_cases;
-          
-          return {
-            id: item._id,
-            requirementId: item.requirement_id || "",
-            requirementTitle: item.requirement_title || "Unnamed Requirement",
-            version: item.version_number || 1,
-            testCases: testCases,
-            date: new Date(item.timestamp).toLocaleString(),
-            updateSource: item.update_type === "ai_assistant" 
-              ? "AI Assistant" 
-              : item.update_type === "manual_edit" 
-                ? "Manual Edit" 
-                : "Generated",
-            isActive: isActive,
-          };
-        });
-
-      // Apply our updated history to state
-      setHistoryItems(formattedHistory);
-      
-      // If we got a new active history ID, update that state
-      if (newActiveHistoryId) {
-        setActiveHistoryId(newActiveHistoryId);
-      }
-      
-      console.log("History refreshed successfully", {
-        itemCount: formattedHistory.length,
-        activeId: newActiveHistoryId || activeHistoryId
-      });
-    } catch (error) {
-      console.error("Error fetching history:", error);
-    }
-  };
-  
   // Also add this useEffect to fetch history items when component mounts
   useEffect(() => {
     // Fetch history for this specific requirement when component mounts or when selected requirement changes
@@ -956,10 +938,63 @@ function Generate() {
     alert(`Téléchargement des cas de test au format ${format.toUpperCase()}`)
   }
 
+  const fetchAndUpdateHistory = async (updatedTests = null, newActiveHistoryId = null) => {
+    try {
+      const params = new URLSearchParams()
+      params.append("project_id", projectId)
+
+      const reqId = selectedRequirement?.id || requirementId
+      if (reqId) params.append("requirement_id", reqId)
+
+      const response = await api.get(`/history?${params.toString()}`)
+
+      // Process history items with active state preserved
+      const formattedHistory = response.data.history
+        .filter((item) => item.test_cases)
+        .map((item) => {
+          const isActive = newActiveHistoryId ? item._id === newActiveHistoryId : activeHistoryId === item._id
+
+          // Override testCases if this is the active item and we have updated tests
+          const testCases = isActive && updatedTests ? updatedTests : item.test_cases
+
+          return {
+            id: item._id,
+            requirementId: item.requirement_id || "",
+            requirementTitle: item.requirement_title || "Unnamed Requirement",
+            version: item.version_number || 1,
+            testCases: testCases,
+            date: new Date(item.timestamp).toLocaleString(),
+            updateSource:
+              item.update_type === "ai_assistant"
+                ? "AI Assistant"
+                : item.update_type === "manual_edit"
+                  ? "Manual Edit"
+                  : "Generated",
+            isActive: isActive,
+          }
+        })
+
+      // Apply our updated history to state
+      setHistoryItems(formattedHistory)
+
+      // If we got a new active history ID, update that state
+      if (newActiveHistoryId) {
+        setActiveHistoryId(newActiveHistoryId)
+      }
+
+      console.log("History refreshed successfully", {
+        itemCount: formattedHistory.length,
+        activeId: newActiveHistoryId || activeHistoryId,
+      })
+    } catch (error) {
+      console.error("Error fetching history:", error)
+    }
+  }
+
   const saveEditedTestCases = async () => {
     try {
       // Get the current active history item
-      const activeHistoryItem = historyItems.find((item) => item.isActive);
+      const activeHistoryItem = historyItems.find((item) => item.isActive)
 
       const requestData = {
         test_cases: editedTests,
@@ -968,78 +1003,81 @@ function Generate() {
         requirement_id: selectedRequirement?.id || null,
         requirement_title: selectedRequirement?.title || newRequirementTitle,
         update_type: "manual_edit",
-      };
+      }
 
-      let newHistoryId = null;
+      let newHistoryId = null
 
       // If we have an active history item, update that item instead of creating a new one
       if (activeHistoryItem && activeHistoryItem.id) {
-        requestData.history_id = activeHistoryItem.id;
+        requestData.history_id = activeHistoryItem.id
 
-        await api.put(`/update_test_cases/${activeHistoryItem.id}`, requestData);
-        console.log("Updated existing test case history item:", activeHistoryItem.id);
-        newHistoryId = activeHistoryItem.id;
+        await api.put(`/update_test_cases/${activeHistoryItem.id}`, requestData)
+        console.log("Updated existing test case history item:", activeHistoryItem.id)
+        newHistoryId = activeHistoryItem.id
       } else {
         // Otherwise create a new history entry
-        const response = await api.post("/save_test_cases", requestData);
-        console.log("Created new test case history item");
+        const response = await api.post("/save_test_cases", requestData)
+        console.log("Created new test case history item")
         // If your backend returns the ID of the newly created history item, capture it here
         if (response.data && response.data._id) {
-          newHistoryId = response.data._id;
+          newHistoryId = response.data._id
         }
       }
 
       // Update current displayed tests
-      setGeneratedTests(editedTests);
-      setIsEditing(false);
+      setGeneratedTests(editedTests)
+      setIsEditing(false)
 
       // Refresh history with our updated tests and active history ID
-      await fetchAndUpdateHistory(editedTests, newHistoryId || activeHistoryId);
+      await fetchAndUpdateHistory(editedTests, newHistoryId || activeHistoryId)
     } catch (error) {
-      console.error("Error saving test case edits:", error);
-      alert("Failed to save your changes. Please try again.");
+      console.error("Error saving test case edits:", error)
+      alert("Failed to save your changes. Please try again.")
     }
-  };
+  }
 
   const handleSaveEdits = () => {
-    saveEditedTestCases();
-  };
+    saveEditedTestCases()
+  }
 
   const loadHistoryVersion = (historyItem) => {
-    setGeneratedTests(historyItem.testCases);
-    setEditedTests(historyItem.testCases);
-    setIsEditing(false);
-    
+    setGeneratedTests(historyItem.testCases)
+    setEditedTests(historyItem.testCases)
+    setIsEditing(false)
+
     // Update active history ID
-    setActiveHistoryId(historyItem.id);
+    setActiveHistoryId(historyItem.id)
 
     const updatedHistoryItems = historyItems.map((item) => ({
       ...item,
       isActive: item.id === historyItem.id,
-    }));
-    setHistoryItems(updatedHistoryItems);
-  };
+    }))
+    setHistoryItems(updatedHistoryItems)
+  }
 
   const handleChatSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (!currentMessage.trim()) return;
+    if (!currentMessage.trim()) return
 
-    console.log("Starting chat request with message:", currentMessage);
-    
+    console.log("Starting chat request with message:", currentMessage)
+
     // Add user message to chat immediately
-    const userMessage = { role: "user", content: currentMessage };
-    setChatMessages(prev => [...prev, userMessage]);
-    setCurrentMessage("");
+    const userMessage = { role: "user", content: currentMessage }
+    setChatMessages((prev) => [...prev, userMessage])
+    setCurrentMessage("")
 
     // Add a temporary "Thinking..." message
-    const tempId = Date.now().toString();
-    setChatMessages(prev => [...prev, { 
-      id: tempId, 
-      role: "assistant", 
-      content: "Thinking...", 
-      isPartial: true 
-    }]);
+    const tempId = Date.now().toString()
+    setChatMessages((prev) => [
+      ...prev,
+      {
+        id: tempId,
+        role: "assistant",
+        content: "Thinking...",
+        isPartial: true,
+      },
+    ])
 
     try {
       // Prepare request data
@@ -1050,16 +1088,16 @@ function Generate() {
         requirement_id: selectedRequirement?.id || null,
         requirement_title: selectedRequirement?.title || newRequirementTitle,
         requirements: requirementsDescription,
-        chat_history: chatMessages.filter(msg => !msg.isPartial),
+        chat_history: chatMessages.filter((msg) => !msg.isPartial),
         direct_mode: directChatMode,
         active_history_id: activeHistoryId,
-      };
+      }
 
       console.log("Sending chat request with data:", {
         message: requestData.message,
         projectId: requestData.project_id,
-        directMode: requestData.direct_mode
-      });
+        directMode: requestData.direct_mode,
+      })
 
       // Use the fetch API instead of axios for better streaming support
       const response = await fetch("/chat_with_assistant", {
@@ -1069,129 +1107,138 @@ function Generate() {
         },
         body: JSON.stringify(requestData),
         credentials: "include",
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
+        throw new Error(`Server error: ${response.status}`)
       }
 
       // Process the text stream
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let buffer = "";
-      let responseText = "";
-      let updatedTestsFound = false;
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder("utf-8")
+      let buffer = ""
+      let responseText = ""
+      let updatedTestsFound = false
 
       // Remove the temporary thinking message
-      setChatMessages(prev => prev.filter(msg => msg.id !== tempId));
+      setChatMessages((prev) => prev.filter((msg) => msg.id !== tempId))
 
       while (true) {
-        const { done, value } = await reader.read();
-        
+        const { done, value } = await reader.read()
+
         if (done) {
           // Process any remaining data in the buffer
           if (buffer.trim() && !updatedTestsFound) {
-            console.log("Stream complete, processing final buffer:", buffer);
+            console.log("Stream complete, processing final buffer:", buffer)
             // If there's leftover content but no test update was found, show it
-            setChatMessages(prev => [...prev, { 
-              role: "assistant", 
-              content: responseText || buffer
-            }]);
+            setChatMessages((prev) => [
+              ...prev,
+              {
+                role: "assistant",
+                content: responseText || buffer,
+              },
+            ])
           }
-          break;
+          break
         }
 
         // Decode this chunk and add to our buffer
-        buffer += decoder.decode(value, { stream: true });
-        
+        buffer += decoder.decode(value, { stream: true })
+
         // Process complete SSE messages (delimited by double newlines)
-        let lines = buffer.split("\n\n");
-        
+        const lines = buffer.split("\n\n")
+
         // Keep the last potentially incomplete chunk in the buffer
-        buffer = lines.pop() || "";
-        
+        buffer = lines.pop() || ""
+
         for (const line of lines) {
-          if (!line.trim()) continue;
-          
+          if (!line.trim()) continue
+
           if (line.startsWith("data: ")) {
-            const data = line.replace("data: ", "");
-            
+            const data = line.replace("data: ", "")
+
             if (data === "[DONE]") {
-              console.log("Received DONE marker");
-              continue;
+              console.log("Received DONE marker")
+              continue
             }
-            
+
             try {
-              const parsed = JSON.parse(data);
-              
+              const parsed = JSON.parse(data)
+
               // Handle updated test cases
               if (parsed.updated_test_cases) {
-                updatedTestsFound = true;
-                const updatedTests = parsed.updated_test_cases;
-                
-                console.log("Received updated test cases");
-                
-                setGeneratedTests(updatedTests);
-                setEditedTests(updatedTests);
-                
-                if (isEditing) setIsEditing(false);
-                
-                setChatMessages(prev => [...prev, { 
-                  role: "assistant", 
-                  content: parsed.confirmation || "✅ Modifications appliquées avec succès." 
-                }]);
-                
-                fetchAndUpdateHistory(updatedTests, activeHistoryId);
-              }
-              else if (parsed.chunk) {
-                responseText += parsed.chunk;
-                
-                setChatMessages(prev => {
-                  const assistantMsg = prev.find(msg => 
-                    msg.role === "assistant" && msg.isPartial
-                  );
-                  
+                updatedTestsFound = true
+                const updatedTests = parsed.updated_test_cases
+
+                console.log("Received updated test cases")
+
+                setGeneratedTests(updatedTests)
+                setEditedTests(updatedTests)
+
+                if (isEditing) setIsEditing(false)
+
+                setChatMessages((prev) => [
+                  ...prev,
+                  {
+                    role: "assistant",
+                    content: parsed.confirmation || "✅ Modifications appliquées avec succès.",
+                  },
+                ])
+
+                fetchAndUpdateHistory(updatedTests, activeHistoryId)
+              } else if (parsed.chunk) {
+                responseText += parsed.chunk
+
+                setChatMessages((prev) => {
+                  const assistantMsg = prev.find((msg) => msg.role === "assistant" && msg.isPartial)
+
                   if (assistantMsg) {
-                    return prev.map(msg => 
-                      (msg.role === "assistant" && msg.isPartial) 
-                        ? { ...msg, content: responseText } 
-                        : msg
-                    );
+                    return prev.map((msg) =>
+                      msg.role === "assistant" && msg.isPartial ? { ...msg, content: responseText } : msg,
+                    )
                   } else {
-                    return [...prev, { 
-                      role: "assistant", 
-                      content: responseText, 
-                      isPartial: true 
-                    }];
+                    return [
+                      ...prev,
+                      {
+                        role: "assistant",
+                        content: responseText,
+                        isPartial: true,
+                      },
+                    ]
                   }
-                });
-              }
-              else if (parsed.error) {
-                console.error("Server error:", parsed.error);
-                setChatMessages(prev => [...prev, { 
-                  role: "assistant", 
-                  content: `Error: ${parsed.error}` 
-                }]);
+                })
+              } else if (parsed.error) {
+                console.error("Server error:", parsed.error)
+                setChatMessages((prev) => [
+                  ...prev,
+                  {
+                    role: "assistant",
+                    content: `Error: ${parsed.error}`,
+                  },
+                ])
               }
             } catch (error) {
-              console.warn("Error parsing SSE message:", error, "Raw data:", data);
+              console.warn("Error parsing SSE message:", error, "Raw data:", data)
             }
           }
         }
       }
     } catch (error) {
-      console.error("Chat error:", error);
-      
-      setChatMessages(prev => {
-        const filtered = prev.filter(msg => msg.id !== tempId);
-        
-        return [...filtered, {
-          role: "assistant",
-          content: `Erreur de communication avec le serveur. ${error.message || ""}`
-        }];
-      });
+      console.error("Chat error:", error)
+
+      setChatMessages((prev) => {
+        const filtered = prev.filter((msg) => msg.id !== tempId)
+
+        return [
+          ...filtered,
+          {
+            role: "assistant",
+            content: `Erreur de communication avec le serveur. ${error.message || ""}`,
+          },
+        ]
+      })
     }
-  };
+  }
 
   const getSidebarStyle = () => {
     if (windowWidth >= 768) {
@@ -1259,7 +1306,7 @@ function Generate() {
               style={hoveredItem === "logout-btn" ? { ...styles.navLink, ...styles.navLinkHover } : styles.navLink}
               onClick={async () => {
                 try {
-                    await api.post("/logout")
+                  await api.post("/logout")
                   navigate("/signin")
                 } catch (error) {
                   console.error("Logout failed:", error)
@@ -1310,7 +1357,7 @@ function Generate() {
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <p style={{ fontSize: "0.875rem", color: "#6b7280" }}>Aucun historique disponible</p>
+                  <p style={{ fontSize: "0.875rem", color: "#9ca3af" }}>Aucun historique disponible</p>
                 </div>
               ) : (
                 historyItems.map((item) => (
@@ -1319,7 +1366,7 @@ function Generate() {
                     style={{
                       ...styles.historyItem,
                       ...(hoveredItem === `history-${item.id}` ? styles.historyItemHover : {}),
-                      ...(item.isActive ? { borderLeft: "3px solid #4f46e5" } : {}),
+                      ...(item.isActive ? styles.historyItemActive : {}),
                     }}
                     onClick={() => loadHistoryVersion(item)}
                     onMouseEnter={() => setHoveredItem(`history-${item.id}`)}
@@ -1334,7 +1381,7 @@ function Generate() {
                               display: "flex",
                               alignItems: "center",
                               fontSize: "0.75rem",
-                              color: "#6b7280",
+                              color: "#9ca3af",
                             }}
                           >
                             {item.updateSource === "AI Assistant" ? (
@@ -1739,7 +1786,7 @@ function Generate() {
                 height: "8px",
                 backgroundColor: "#10B981",
                 borderRadius: "50%",
-                border: "1px solid white",
+                border: "1px solid #0a0d14",
               }}
             ></div>
           )}
@@ -1753,26 +1800,10 @@ function Generate() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <div
                 onClick={() => setDirectChatMode(!directChatMode)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  fontSize: "0.75rem",
-                  color: directChatMode ? "#10B981" : "#9CA3AF",
-                  cursor: "pointer",
-                  padding: "0.25rem 0.5rem",
-                  borderRadius: "0.25rem",
-                  backgroundColor: directChatMode ? "rgba(16, 185, 129, 0.1)" : "transparent",
-                }}
+                style={directChatMode ? styles.directModeActive : styles.directModeInactive}
               >
                 <div
-                  style={{
-                    width: "0.75rem",
-                    height: "0.75rem",
-                    backgroundColor: directChatMode ? "#10B981" : "transparent",
-                    border: directChatMode ? "none" : "1px solid #9CA3AF",
-                    borderRadius: "50%",
-                    marginRight: "0.25rem",
-                  }}
+                  style={directChatMode ? styles.directModeIndicatorActive : styles.directModeIndicatorInactive}
                 ></div>
                 Mode direct
               </div>
