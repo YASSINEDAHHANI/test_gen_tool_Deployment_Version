@@ -18,9 +18,8 @@ import {
 import { styled } from "@mui/material/styles"
 import AppTheme from "../shared-theme/AppTheme"
 import { useNavigate } from "react-router-dom"
+import api from "../api"
 
-axios.defaults.baseURL = "/api"
-axios.defaults.withCredentials = true
 
 // Updated Card with light theme styling
 const Card = styled(MuiCard)(({ theme }) => ({
