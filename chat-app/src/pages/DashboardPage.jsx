@@ -1,22 +1,21 @@
-import logoImage from '../shared-theme/logo-test-case.png';
-
+import logoImage from "../shared-theme/logo-test-case.png"
 import { useState, useEffect } from "react"
 import api from "../api"
 
-// Dark theme styles based on the TestGen interface
+// Light theme styles based on the TestGen interface
 const styles = {
   // Layout
   container: {
     display: "flex",
     minHeight: "100vh",
     flexDirection: "column",
-    backgroundColor: "#0a0d14", // Dark navy/black background
+    backgroundColor: "#ffffff", // Light background
     fontFamily: "Inter, system-ui, -apple-system, sans-serif",
-    color: "#ffffff",
+    color: "#1f2937", // Dark text for light mode
   },
   header: {
-    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-    backgroundColor: "#0a0d14",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#ffffff",
     padding: "1rem 0",
   },
   headerContainer: {
@@ -30,7 +29,7 @@ const styles = {
   logo: {
     fontSize: "1.5rem",
     fontWeight: "700",
-    color: "#3b82f6", // Blue logo color
+    color: "#3b82f6", // Keep blue logo color
     letterSpacing: "-0.025em",
   },
   navLinks: {
@@ -41,7 +40,7 @@ const styles = {
   navLink: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#ffffff",
+    color: "#1f2937",
     background: "none",
     border: "none",
     cursor: "pointer",
@@ -50,7 +49,7 @@ const styles = {
     transition: "all 0.2s",
   },
   navLinkHover: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
   },
   mainContent: {
     flex: "1",
@@ -68,7 +67,7 @@ const styles = {
   pageTitle: {
     fontSize: "1.875rem",
     fontWeight: "700",
-    color: "#ffffff",
+    color: "#1f2937",
     margin: 0,
   },
   newProjectButton: {
@@ -76,7 +75,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     padding: "0.5rem 1rem",
-    backgroundColor: "#3b82f6", // Blue button
+    backgroundColor: "#3b82f6", // Keep blue button
     color: "white",
     borderRadius: "0.5rem",
     fontWeight: "500",
@@ -98,11 +97,11 @@ const styles = {
     gap: "1rem",
     marginBottom: "1.5rem",
   },
- searchContainer: {
-  position: "relative",
-  flex: 1,
-  width: "100%",  
-},
+  searchContainer: {
+    position: "relative",
+    flex: 1,
+    width: "100%",
+  },
   searchIcon: {
     position: "absolute",
     left: "1rem",
@@ -115,10 +114,10 @@ const styles = {
   searchInput: {
     width: "100%",
     padding: "0.625rem 1rem 0.625rem 2.5rem",
-    backgroundColor: "#0f1219", // Slightly lighter than background
-    color: "#ffffff",
+    backgroundColor: "#f3f4f6", // Light gray background
+    color: "#1f2937",
     borderRadius: "0.5rem",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     fontSize: "0.875rem",
     transition: "all 0.2s",
     outline: "none",
@@ -139,16 +138,18 @@ const styles = {
     gridTemplateColumns: "repeat(3, 1fr)",
   },
   card: {
-    backgroundColor: "#0f1219", // Slightly lighter than background
+    backgroundColor: "#ffffff", // White background
     borderRadius: "0.5rem",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     overflow: "hidden",
     cursor: "pointer",
     transition: "all 0.2s",
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
   },
   cardHover: {
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    borderColor: "rgba(0, 0, 0, 0.2)",
     transform: "translateY(-2px)",
+    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
   },
   cardHeader: {
     display: "flex",
@@ -159,7 +160,7 @@ const styles = {
   cardTitle: {
     fontSize: "1.125rem",
     fontWeight: "600",
-    color: "#ffffff",
+    color: "#1f2937",
     margin: 0,
   },
   cardMenuButton: {
@@ -174,8 +175,8 @@ const styles = {
     justifyContent: "center",
   },
   cardMenuButtonHover: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    color: "#ffffff",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    color: "#1f2937",
   },
   cardContent: {
     padding: "0 1.25rem 1.25rem",
@@ -189,20 +190,21 @@ const styles = {
     display: "flex",
     alignItems: "center",
     fontSize: "0.875rem",
-    color: "#9ca3af",
+    color: "#6b7280",
   },
   cardIcon: {
     marginRight: "0.5rem",
     height: "1rem",
     width: "1rem",
-    color: "#9ca3af",
+    color: "#6b7280",
   },
   cardFooter: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0.75rem 1.25rem",
-    borderTop: "1px solid rgba(255, 255, 255, 0.05)",
+    borderTop: "1px solid rgba(0, 0, 0, 0.05)",
+    backgroundColor: "#f9fafb",
   },
   statusBadge: {
     display: "inline-flex",
@@ -232,9 +234,9 @@ const styles = {
     justifyContent: "center",
     padding: "4rem 2rem",
     textAlign: "center",
-    backgroundColor: "#0f1219",
+    backgroundColor: "#f9fafb",
     borderRadius: "0.5rem",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
   },
   emptyIcon: {
     height: "4rem",
@@ -245,12 +247,12 @@ const styles = {
   emptyTitle: {
     fontSize: "1.125rem",
     fontWeight: "600",
-    color: "#ffffff",
+    color: "#1f2937",
     margin: "0.5rem 0",
   },
   emptyText: {
     fontSize: "0.875rem",
-    color: "#9ca3af",
+    color: "#6b7280",
     marginBottom: "1.5rem",
   },
 
@@ -273,12 +275,12 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     backdropFilter: "blur(4px)",
     zIndex: -1,
   },
   modalContent: {
-    backgroundColor: "#0f1219",
+    backgroundColor: "#ffffff",
     borderRadius: "0.75rem",
     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
     width: "100%",
@@ -288,23 +290,23 @@ const styles = {
     zIndex: 10,
     maxHeight: "90vh",
     overflow: "auto",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
   },
   modalHeader: {
     marginBottom: "1.5rem",
-    borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
     paddingBottom: "1rem",
   },
   modalTitle: {
     fontSize: "1.25rem",
     fontWeight: "600",
-    color: "#ffffff",
+    color: "#1f2937",
     marginTop: 0,
     marginBottom: "0.5rem",
   },
   modalDesc: {
     fontSize: "0.875rem",
-    color: "#9ca3af",
+    color: "#6b7280",
     margin: 0,
   },
   formGroup: {
@@ -314,19 +316,19 @@ const styles = {
     display: "block",
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#d1d5db",
+    color: "#4b5563",
     marginBottom: "0.5rem",
   },
   input: {
     width: "100%",
     padding: "0.625rem 0.75rem",
     borderRadius: "0.5rem",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     fontSize: "0.875rem",
     transition: "all 0.2s",
     outline: "none",
-    backgroundColor: "#0a0d14",
-    color: "#ffffff",
+    backgroundColor: "#ffffff",
+    color: "#1f2937",
   },
   inputFocus: {
     borderColor: "#3b82f6",
@@ -336,10 +338,10 @@ const styles = {
     width: "100%",
     padding: "0.625rem 0.75rem",
     borderRadius: "0.5rem",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     fontSize: "0.875rem",
-    backgroundColor: "#0a0d14",
-    color: "#ffffff",
+    backgroundColor: "#ffffff",
+    color: "#1f2937",
     outline: "none",
     transition: "all 0.2s",
     appearance: "none",
@@ -357,14 +359,14 @@ const styles = {
     width: "100%",
     padding: "0.625rem 0.75rem",
     borderRadius: "0.5rem",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     fontSize: "0.875rem",
     outline: "none",
     transition: "all 0.2s",
     minHeight: "6rem",
     resize: "vertical",
-    backgroundColor: "#0a0d14",
-    color: "#ffffff",
+    backgroundColor: "#ffffff",
+    color: "#1f2937",
   },
   textareaFocus: {
     borderColor: "#3b82f6",
@@ -429,7 +431,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     gap: "0.75rem",
-    borderTop: "1px solid rgba(255, 255, 255, 0.05)",
+    borderTop: "1px solid rgba(0, 0, 0, 0.05)",
     paddingTop: "1.25rem",
   },
   modalFooterButtons: {
@@ -439,8 +441,8 @@ const styles = {
   outlineButton: {
     padding: "0.625rem 1.25rem",
     backgroundColor: "transparent",
-    color: "#d1d5db",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    color: "#4b5563",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     borderRadius: "0.5rem",
     fontSize: "0.875rem",
     fontWeight: "500",
@@ -448,8 +450,8 @@ const styles = {
     transition: "all 0.2s",
   },
   outlineButtonHover: {
-    backgroundColor: "rgba(255, 255, 255, 0.05)",
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    borderColor: "rgba(0, 0, 0, 0.2)",
   },
   primaryButton: {
     padding: "0.625rem 1.25rem",
@@ -468,11 +470,11 @@ const styles = {
   fileInput: {
     width: "100%",
     padding: "0.5rem 0",
-    color: "#d1d5db",
+    color: "#4b5563",
   },
   helperText: {
     fontSize: "0.75rem",
-    color: "#9ca3af",
+    color: "#6b7280",
     marginTop: "0.5rem",
   },
   loadingContainer: {
@@ -488,7 +490,7 @@ const styles = {
   },
   loadingText: {
     fontSize: "0.875rem",
-    color: "#9ca3af",
+    color: "#6b7280",
   },
   progressContainer: {
     display: "flex",
@@ -502,7 +504,7 @@ const styles = {
     left: "10%",
     right: "10%",
     height: "2px",
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
     transform: "translateY(-50%)",
     zIndex: 0,
   },
@@ -520,14 +522,14 @@ const styles = {
     width: "2rem",
     height: "2rem",
     borderRadius: "50%",
-    backgroundColor: "#0a0d14",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#ffffff",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#9ca3af",
+    color: "#6b7280",
     position: "relative",
     zIndex: 2,
   },
@@ -553,7 +555,6 @@ const SearchIcon = () => (
     />
   </svg>
 )
-
 
 const PlusIcon = () => (
   <svg
@@ -764,17 +765,17 @@ function Dashboard({ user }) {
       }
       
       ::-webkit-scrollbar-track {
-        background: #0f1219;
+        background: #f3f4f6;
         border-radius: 10px;
       }
       
       ::-webkit-scrollbar-thumb {
-        background: #1f2937;
+        background: #d1d5db;
         border-radius: 10px;
       }
       
       ::-webkit-scrollbar-thumb:hover {
-        background: #374151;
+        background: #9ca3af;
       }
       
       /* Add font smoothing */
@@ -785,7 +786,7 @@ function Dashboard({ user }) {
       
       /* Set body background */
       body {
-        background-color: #0a0d14;
+        background-color: #ffffff;
         margin: 0;
         padding: 0;
       }
@@ -947,14 +948,14 @@ function Dashboard({ user }) {
   }
 
   const handleLogout = async () => {
-  try {
-    await api.post("/logout");
-    window.location.href = "/login";
-  } catch (error) {
-    console.error("Logout failed:", error);
-    window.location.href = "/login";
+    try {
+      await api.post("/logout")
+      window.location.href = "/login"
+    } catch (error) {
+      console.error("Logout failed:", error)
+      window.location.href = "/login"
+    }
   }
-};
 
   // Progress indicator for multi-step form
   const renderProgressIndicator = () => {
@@ -1184,25 +1185,25 @@ function Dashboard({ user }) {
     <div style={styles.container}>
       <header style={styles.header}>
         <div style={styles.headerContainer}>
-          <img 
-            src={logoImage} 
-            alt="TestGen Logo" 
-            style={{ 
-              height: "40px" 
-            }} 
-             />  
-            <div style={styles.navLinks}>
-              <button
-          style={{
-            ...styles.navLink,
-            ...(hoveredButton === "logout" ? styles.navLinkHover : {}),
-          }}
-          onClick={handleLogout}
-          onMouseEnter={() => setHoveredButton("logout")}
-          onMouseLeave={() => setHoveredButton(null)}
-        >
-          Logout
-        </button>
+          <img
+            src={logoImage || "/placeholder.svg"}
+            alt="TestGen Logo"
+            style={{
+              height: "40px",
+            }}
+          />
+          <div style={styles.navLinks}>
+            <button
+              style={{
+                ...styles.navLink,
+                ...(hoveredButton === "logout" ? styles.navLinkHover : {}),
+              }}
+              onClick={handleLogout}
+              onMouseEnter={() => setHoveredButton("logout")}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </header>

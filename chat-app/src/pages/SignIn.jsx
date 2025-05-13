@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useState } from "react"
 import axios from "axios"
 import api from "../api"
@@ -24,7 +22,7 @@ import { useNavigate } from "react-router-dom"
 axios.defaults.baseURL = "/api"
 axios.defaults.withCredentials = true
 
-// Updated Card with dark theme styling
+// Updated Card with light theme styling
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -36,64 +34,64 @@ const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     maxWidth: "450px",
   },
-  backgroundColor: "#0f1219", // Darker background for the card
-  color: "#ffffff", // Light text color
-  border: "1px solid rgba(255, 255, 255, 0.1)", // Subtle border
-  boxShadow: "rgba(0, 0, 0, 0.3) 0px 5px 15px 0px, rgba(0, 0, 0, 0.2) 0px 15px 35px -5px",
+  backgroundColor: "#ffffff", // White background for the card
+  color: "#1f2937", // Dark text color
+  border: "1px solid rgba(0, 0, 0, 0.1)", // Subtle border
+  boxShadow: "rgba(0, 0, 0, 0.1) 0px 5px 15px 0px, rgba(0, 0, 0, 0.05) 0px 15px 35px -5px",
 }))
 
-// Updated container with dark theme styling
+// Updated container with light theme styling
 const SignInContainer = styled(Stack)(({ theme }) => ({
   height: "100vh",
   padding: theme.spacing(2),
   [theme.breakpoints.up("sm")]: {
     padding: theme.spacing(4),
   },
-  backgroundColor: "#0a0d14", // Dark navy/black background
+  backgroundColor: "#f9fafb", // Light gray background
   backgroundImage: "none", // Remove the radial gradient
   backgroundRepeat: "no-repeat",
 }))
 
-// Custom styled TextField for dark theme
-const DarkTextField = styled(TextField)(({ theme }) => ({
+// Custom styled TextField for light theme
+const LightTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
-    backgroundColor: "#0a0d14", // Dark input background
-    color: "#ffffff", // Light text color
+    backgroundColor: "#ffffff", // White input background
+    color: "#1f2937", // Dark text color
     "& fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.1)", // Subtle border
+      borderColor: "rgba(0, 0, 0, 0.1)", // Subtle border
     },
     "&:hover fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.2)", // Slightly brighter on hover
+      borderColor: "rgba(0, 0, 0, 0.2)", // Slightly darker on hover
     },
     "&.Mui-focused fieldset": {
       borderColor: "#3b82f6", // Blue accent color when focused
     },
   },
   "& .MuiInputLabel-root": {
-    color: "#d1d5db", // Light gray label
+    color: "#4b5563", // Dark gray label
   },
   "& .MuiInputBase-input::placeholder": {
-    color: "#6b7280", // Darker gray for placeholder
+    color: "#9ca3af", // Medium gray for placeholder
     opacity: 1,
   },
 }))
 
-// Custom styled FormLabel for dark theme
-const DarkFormLabel = styled(FormLabel)(({ theme }) => ({
-  color: "#d1d5db", // Light gray label
+// Custom styled FormLabel for light theme
+const LightFormLabel = styled(FormLabel)(({ theme }) => ({
+  color: "#4b5563", // Dark gray label
   marginBottom: theme.spacing(0.5),
 }))
 
-// Custom styled Checkbox for dark theme
-const DarkCheckbox = styled(Checkbox)(({ theme }) => ({
-  color: "#d1d5db", // Light gray when unchecked
+// Custom styled Checkbox for light theme
+const LightCheckbox = styled(Checkbox)(({ theme }) => ({
+  color: "#6b7280", // Medium gray when unchecked
   "&.Mui-checked": {
     color: "#3b82f6", // Blue accent color when checked
   },
 }))
 
-// Custom styled Button for dark theme
-const DarkButton = styled(Button)(({ theme }) => ({
+// Custom styled Button for light theme
+const LightButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#3b82f6", // Blue accent color
   color: "#ffffff", // White text
   "&:hover": {
@@ -154,37 +152,37 @@ const SignIn = (props) => {
     }
   }
 
-  // Add global styles for dark theme
+  // Add global styles for light theme
   React.useEffect(() => {
     const styleTag = document.createElement("style")
     styleTag.type = "text/css"
     styleTag.innerHTML = `
       body {
-        background-color: #0a0d14;
+        background-color: #f9fafb;
         margin: 0;
         padding: 0;
-        color: #ffffff;
+        color: #1f2937;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       }
       
-      /* Custom scrollbar for dark theme */
+      /* Custom scrollbar for light theme */
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
       
       ::-webkit-scrollbar-track {
-        background: #0a0d14;
+        background: #f3f4f6;
         border-radius: 10px;
       }
       
       ::-webkit-scrollbar-thumb {
-        background: #1f2937;
+        background: #d1d5db;
         border-radius: 10px;
       }
       
       ::-webkit-scrollbar-thumb:hover {
-        background: #374151;
+        background: #9ca3af;
       }
     `
     document.head.appendChild(styleTag)
@@ -207,7 +205,7 @@ const SignIn = (props) => {
             sx={{
               width: "100%",
               fontSize: "clamp(2rem, 10vw, 2.15rem)",
-              color: "#ffffff", // Ensure white text
+              color: "#1f2937", // Dark text for light theme
               fontWeight: 600, // Make it slightly bolder
             }}
           >
@@ -219,10 +217,10 @@ const SignIn = (props) => {
               sx={{
                 mb: 2,
                 backgroundColor: "rgba(239, 68, 68, 0.1)", // Subtle red background
-                color: "#f87171", // Light red text
+                color: "#ef4444", // Red text
                 border: "1px solid rgba(239, 68, 68, 0.2)", // Subtle red border
                 "& .MuiAlert-icon": {
-                  color: "#f87171", // Light red icon
+                  color: "#ef4444", // Red icon
                 },
               }}
             >
@@ -241,8 +239,8 @@ const SignIn = (props) => {
             }}
           >
             <FormControl>
-              <DarkFormLabel htmlFor="email">Email</DarkFormLabel>
-              <DarkTextField
+              <LightFormLabel htmlFor="email">Email</LightFormLabel>
+              <LightTextField
                 id="email"
                 type="email"
                 name="email"
@@ -257,8 +255,8 @@ const SignIn = (props) => {
               />
             </FormControl>
             <FormControl>
-              <DarkFormLabel htmlFor="password">Password</DarkFormLabel>
-              <DarkTextField
+              <LightFormLabel htmlFor="password">Password</LightFormLabel>
+              <LightTextField
                 id="password"
                 type="password"
                 name="password"
@@ -272,14 +270,14 @@ const SignIn = (props) => {
               />
             </FormControl>
             <FormControlLabel
-              control={<DarkCheckbox value="remember" />}
+              control={<LightCheckbox value="remember" />}
               label="Remember me"
-              sx={{ color: "#d1d5db" }} // Light gray text for the label
+              sx={{ color: "#4b5563" }} // Dark gray text for the label
             />
 
-            <DarkButton type="submit" fullWidth variant="contained" disabled={isLoading}>
+            <LightButton type="submit" fullWidth variant="contained" disabled={isLoading}>
               {isLoading ? "Signing In..." : "Sign in"}
-            </DarkButton>
+            </LightButton>
           </Box>
         </Card>
       </SignInContainer>

@@ -4,20 +4,20 @@ import { useEffect, useState } from "react"
 import api from "../api"
 import { useParams } from "react-router-dom"
 
-// Dark theme styles based on the TestGen interface
+// Light theme styles based on the TestGen interface
 const styles = {
   // Layout
   container: {
     display: "flex",
     minHeight: "100vh",
     flexDirection: "column",
-    backgroundColor: "#0a0d14", // Dark navy/black background
+    backgroundColor: "#ffffff", // Light background
     fontFamily: "Inter, system-ui, -apple-system, sans-serif",
-    color: "#ffffff",
+    color: "#1f2937", // Dark text for light mode
   },
   header: {
-    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-    backgroundColor: "#0a0d14",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#ffffff",
   },
   headerContainer: {
     maxWidth: "1200px",
@@ -31,7 +31,7 @@ const styles = {
   backButton: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#ffffff",
+    color: "#1f2937",
     display: "flex",
     alignItems: "center",
     backgroundColor: "transparent",
@@ -42,7 +42,7 @@ const styles = {
     transition: "all 0.2s",
   },
   backButtonHover: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
   },
   backIcon: {
     height: "1rem",
@@ -52,7 +52,7 @@ const styles = {
   pageTitle: {
     fontSize: "1.25rem",
     fontWeight: "700",
-    color: "#ffffff",
+    color: "#1f2937",
     margin: 0,
   },
   navLinks: {
@@ -63,7 +63,7 @@ const styles = {
   navLink: {
     fontSize: "0.875rem",
     fontWeight: "500",
-    color: "#ffffff",
+    color: "#1f2937",
     backgroundColor: "transparent",
     border: "none",
     cursor: "pointer",
@@ -72,7 +72,7 @@ const styles = {
     transition: "all 0.2s",
   },
   navLinkHover: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
   },
   mainContent: {
     display: "flex",
@@ -84,21 +84,22 @@ const styles = {
   redirectContainer: {
     textAlign: "center",
     padding: "3rem",
-    backgroundColor: "#0f1219", // Slightly lighter than background
+    backgroundColor: "#f9fafb", // Light gray background
     borderRadius: "0.75rem",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     maxWidth: "32rem",
     width: "100%",
+    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
   },
   redirectTitle: {
     fontSize: "1.5rem",
     fontWeight: "700",
     marginBottom: "1rem",
-    color: "#ffffff",
+    color: "#1f2937",
   },
   redirectText: {
     marginBottom: "1.5rem",
-    color: "#9ca3af",
+    color: "#6b7280",
     fontSize: "0.875rem",
     lineHeight: "1.5rem",
   },
@@ -163,19 +164,19 @@ function Project() {
       }
     
     body {
-      background-color: #0a0d14;
+      background-color: #ffffff;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
     }
     
     html {
-      background-color: #0a0d14;
+      background-color: #ffffff;
     }
     
-    /* Remove any potential white borders */
+    /* Remove any potential dark borders */
     #root, div[data-reactroot] {
-      background-color: #0a0d14;
+      background-color: #ffffff;
       min-height: 100vh;
     }
   `
