@@ -18,7 +18,6 @@ import {
 import { styled } from "@mui/material/styles"
 import AppTheme from "../shared-theme/AppTheme"
 import { useNavigate } from "react-router-dom"
-import api from "../api"
 
 
 // Updated Card with light theme styling
